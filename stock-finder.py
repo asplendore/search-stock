@@ -114,7 +114,7 @@ def finder(password,stocks,minscore,maxrsi,maxwillr):
         if rows_df==[]:
             df_sorted=pd.DataFrame(columns=column_names)
         else:
-            df_sorted=df.sort_values(by=["Score"])
+            df_sorted=df.sort_values(by=["Score"],ascending=False)
     else:
         df_sorted=pd.DataFrame(columns=column_names)
     return clock, df_sorted
