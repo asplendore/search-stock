@@ -2,9 +2,9 @@ import streamlit as st
 from streamlit import caching
 import alpaca_trade_api as tradeapi
 import numpy as np
-from talib import RSI
 import statistics as stats
 import pandas as pd
+import pandas_ta as pta
 import base64
 
 APCA_API_BASE_URL="https://paper-api.alpaca.markets"
@@ -89,8 +89,8 @@ def parameters_calc(symbol,api):
     sigma=stats.stdev(closeList)
     score=(average-price)/sigma
     drop=100*((average-price)/average)
-    cList=np.array(closeList,dtype=np.float64)
-    rsi14=RSI(cList,14)[-1]
+    cList=pd.DataFrame(closeList)
+    rsi14=pta.rsi(cList,14)[-1]
     willR=100+(max(hiList)-price)/(max(hiList)-min(loList))*(-100)
     return score, average, price, drop, sigma, rsi14, willR
 
