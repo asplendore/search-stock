@@ -120,7 +120,7 @@ def stock_search(stocks):
     return deals, scores, best_deal, scoref, dropf, sigmaf, rsi14f, willRf
 
 @st.cache
-def finder(password,stocks):
+def finder(password,stocks,minscore,maxrsi,maxwillr):
     column_names=["Symbol","Shares","Price","AvgEntry","CostBasis","MarketValue","P/L(%)"]
     APCA_API_KEY_ID="PKDK5OS0Q7CJABQDQMTY"
     APCA_API_SECRET_KEY="F8fOmUuIIwgNrjIvC1r61CgLfp6JrwKHeN9GQF8z"
