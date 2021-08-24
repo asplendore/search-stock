@@ -90,7 +90,7 @@ def parameters_calc(symbol,api):
     score=(average-price)/sigma
     drop=100*((average-price)/average)
     cList=pd.DataFrame(closeList)
-    rsi14=pta.rsi(cList,14)[-1]
+    rsi14=pta.rsi(close=cList,lenght=14)[-1]
     willR=100+(max(hiList)-price)/(max(hiList)-min(loList))*(-100)
     return score, average, price, drop, sigma, rsi14, willR
 
