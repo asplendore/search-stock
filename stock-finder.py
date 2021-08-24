@@ -110,11 +110,11 @@ def finder(password,stocks,minscore,maxrsi,maxwillr):
             score, average, price, drop, sigma, rsi14, willR = parameters_calc(stock,api)
             if (score>=minscore)and(rsi14<=maxrsi)and(willR<=maxwillr):
                 rows_df.append([stock,score,sigma,rsi14,willR,average,price,drop])
-        df_sorted=pd.DataFrame(rows_df, columns=column_names)
+        df=pd.DataFrame(rows_df, columns=column_names)
         if rows_df==[]:
             df_sorted=pd.DataFrame(columns=column_names)
         else:
-            df_sorted=df.sort_values(by=["score"])
+            df_sorted=df.sort_values(by=["Score"])
     else:
         df_sorted=pd.DataFrame(columns=column_names)
     return clock, df_sorted
