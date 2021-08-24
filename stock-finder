@@ -15,7 +15,6 @@ Developed by A.Splendore - Version 0.1 - 24 August 2021
 
 password = st.text_input("Enter a password", type="password")
 
-
 DOW= set(["MMM","AXP","AMGN","AAPL","BA","CAT","CVX","CSCO","KO","DOW","GS","HD","HON","IBM","INTC",
         "JNJ","JPM","MCD","MRK","MSFT","NKE","PG","CRM","TRV","UNH","VZ","V","WMT","WBA","DIS"])
 
@@ -65,7 +64,6 @@ SP500=set (["MMM","ABT","ABBV","ABMD","ACN","ATVI","ADBE","AMD","AAP","AES","AFL
             "XYL","YUM","ZBRA","ZBH","ZION","ZTS"])
 
 ALLSTOCKS=DOW.union(NASDAQ.union(SP500))
-
 
 def filedownload(df):
     csv = df.to_csv(index=False)
@@ -131,7 +129,8 @@ def finder(password,stocks,minscore,maxrsi,maxwillr):
         rows_df=[]
         for stock in stocks:
             score, average, price, drop, sigma, rsi14, willR = parameters_calc(stock)
-            rows_df.append([stock,score,sigma,rsi14,willR,average,price,drop])
+            if (score>=minscore)and(rsi14<maxrsi)and(willR<maxwillr):
+                rows_df.append([stock,score,sigma,rsi14,willR,average,price,drop])
         df=pd.DataFrame(rows_df, columns=column_names)
         df_sorted=df.sort_values(by ["score"])
     else:
