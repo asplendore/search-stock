@@ -1,5 +1,5 @@
 streamlit>=0.74.1
 pandas>=1.0.1
-numpy>=1.18.1
+pandas-ta==0.3.14b
 base58==2.0.1
 alpaca-trade-api==1.2.3
