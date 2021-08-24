@@ -6,10 +6,10 @@ import base64
 
 APCA_API_BASE_URL="https://paper-api.alpaca.markets"
 
-st.title('Welcome to Your Alpaca Account')
+st.title('Stock Finder')
 
 st.markdown("""
-Developed by A.Splendore - Version 0.3 - 22 August 2021
+Developed by A.Splendore - Version 0.1 - 24 August 2021
 
 """)
 
