@@ -1,0 +1,95 @@
+import streamlit as st
+from streamlit import caching
+import alpaca_trade_api as tradeapi
+import pandas as pd
+import base64
+
+APCA_API_BASE_URL="https://paper-api.alpaca.markets"
+
+st.title('Welcome to Your Alpaca Account')
+
+st.markdown("""
+Developed by A.Splendore - Version 0.3 - 22 August 2021
+
+""")
+
+password = st.text_input("Enter a password", type="password")
+
+def filedownload(df):
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
+    href = f'<a href="data:file/csv;base64,{b64}" download="Portfolio.csv">Download CSV File for Portfolio Summary</a>'
+    return href
+
+@st.cache
+def view_position(password,profile):
+    column_names_portfolio=["Symbol","Shares","Price","AvgEntry","CostBasis","MarketValue","P/L(%)"]
+    column_names_orders=["Symbol","Shares","AvgEntry","TakeProfitPrice","FutureProfit"]
+    moderate=["PKDK5OS0Q7CJABQDQMTY","F8fOmUuIIwgNrjIvC1r61CgLfp6JrwKHeN9GQF8z"]
+    aggressive=["PKKD5TPH6KDFCVTJJBK1","ypmdChDik72HclVsguwgT4Rgkpl5gqrFfbSyGVtk"]
+    if profile=="Moderate":
+        APCA_API_KEY_ID=moderate[0]
+        APCA_API_SECRET_KEY=moderate[1]
+    elif profile=="Aggressive":
+        APCA_API_KEY_ID=aggressive[0]
+        APCA_API_SECRET_KEY=aggressive[1]
+    else:
+        APCA_API_KEY_ID=""
+        APCA_API_SECRET_KEY=""
+    if password=="capala":
+        api = tradeapi.REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY,APCA_API_BASE_URL)
+        clock = api.get_clock()
+        portfolio = api.list_positions()
+        account=api.get_account()
+        summary=[account.portfolio_value,account.cash,account.long_market_value]
+        open_orders = api.list_orders(
+            status='new',
+            limit=100,
+            nested=True)
+        rows_portfolio=[]
+        for position in portfolio:
+            PLpct=100*float(position.unrealized_plpc)
+            rows_portfolio.append([position.symbol,position.qty,position.current_price,
+                         position.avg_entry_price,position.cost_basis,position.market_value,PLpct])
+        df_portfolio=pd.DataFrame(rows_portfolio, columns=column_names_portfolio)
+        rows_orders=[]
+        for order in open_orders:
+            profit=float(order.filled_qty)*(float(order.legs[0].limit_price)-float(order.filled_avg_price))
+            rows_orders.append([order.symbol,order.filled_qty,order.filled_avg_price, round(float(order.legs[0].limit_price), 2),profit])
+        df_orders=pd.DataFrame(rows_orders, columns=column_names_orders)
+    else:
+        df_portfolio = pd.DataFrame(columns=column_names_portfolio)
+        df_orders=pd.DataFrame(columns=column_names_orders)
+        summary=[0,0,0]
+    return clock, df_portfolio, df_orders, summary
+
+
+if password=="capala":
+    profile=st.radio("Which account do you want to connect with?",("Moderate","Aggressive"))
+    clock, df_portfolio, df_orders, summary=view_position(password,profile)
+    showData=st.checkbox("Show Data/Refresh")
+    if showData:
+        if clock.is_open:
+            market="OPEN"
+        else:
+            market="CLOSED"
+        st.write("The Market is ",market)
+        st.write("*Portfolio:*")
+        st.dataframe(df_portfolio)
+        st.markdown(filedownload(df_portfolio), unsafe_allow_html=True)
+        st.write("*Account Summary:*")
+        (col1, col2, col3) = st.beta_columns(3)
+        with col1:
+            st.write("Total [$]=",summary[0])
+        with col2:
+            st.write("Cash [$]=",summary[1])
+        with col3:
+            st.write("Portfolio [$]=",summary[2])
+        st.write("*Open Orders:*")
+        st.dataframe(df_orders)
+    else:
+        caching.clear_cache()
+elif password!="":
+    st.info("*Warning: wrong password !!!*")
+    caching.clear_cache()
+    
