@@ -91,31 +91,6 @@ def parameters_calc(symbol):
     willR=100+(max(hiList)-price)/(max(hiList)-min(loList))*(-100)
     return score, average, price, drop, sigma, rsi14, willR
 
-def stock_search(stocks):
-    SCOREMAX=2.0
-    RSI14MIN=25.0
-    WILLRMIN=20.0
-    scoref=0.0
-    dropf=0.0
-    sigmaf=0.0
-    rsi14f=0.0
-    willRf=0.0
-    deals=[]
-    scores=[]
-    best_deal="NODEAL"
-    for stock in stocks:
-        score, average, price, drop, sigma, rsi14, willR = parameters_calc(stock)
-        if (1000//price>0.0)and(score>SCOREMAX)and(rsi14<RSI14MIN)and(willR<WILLRMIN):
-            deals.append(stock)
-            scores.append(score)
-            if score>scoref:
-                best_deal=stock
-                scoref=score
-                dropf=drop
-                sigmaf=sigma
-                rsi14f=rsi14
-                willRf=willR
-    return deals, scores, best_deal, scoref, dropf, sigmaf, rsi14f, willRf
 
 @st.cache
 def finder(password,stocks,minscore,maxrsi,maxwillr):
