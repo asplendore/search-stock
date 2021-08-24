@@ -120,7 +120,7 @@ def stock_search(stocks):
     return deals, scores, best_deal, scoref, dropf, sigmaf, rsi14f, willRf
 
 @st.cache
-def view_position(password,stocks):
+def finder(password,stocks):
     column_names_portfolio=["Symbol","Shares","Price","AvgEntry","CostBasis","MarketValue","P/L(%)"]
     APCA_API_KEY_ID="PKDK5OS0Q7CJABQDQMTY"
     APCA_API_SECRET_KEY="F8fOmUuIIwgNrjIvC1r61CgLfp6JrwKHeN9GQF8z"
@@ -168,7 +168,7 @@ if password=="capala":
         st.write("Max WillR=",MAXWILLR)
     
     
-    clock, df_portfolio, df_orders, summary=view_position(password,ALLSTOCKS)
+    clock, df_portfolio, df_orders, summary=finder(password,ALLSTOCKS)
     showData=st.checkbox("Show Data/Refresh")
     if showData:
         if clock.is_open:
