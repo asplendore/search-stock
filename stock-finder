@@ -121,7 +121,7 @@ def stock_search(stocks):
 
 @st.cache
 def finder(password,stocks,minscore,maxrsi,maxwillr):
-    column_names=["Symbol","Shares","Price","AvgEntry","CostBasis","MarketValue","P/L(%)"]
+    column_names=["Symbol","Score","Sigma","RSI14","WillR","AvgPrice","Price","Drop_pct"]
     APCA_API_KEY_ID="PKDK5OS0Q7CJABQDQMTY"
     APCA_API_SECRET_KEY="F8fOmUuIIwgNrjIvC1r61CgLfp6JrwKHeN9GQF8z"
 
