@@ -128,19 +128,11 @@ def finder(password,stocks,minscore,maxrsi,maxwillr):
     if password=="capala":
         api = tradeapi.REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY,APCA_API_BASE_URL)
         clock = api.get_clock()
-        portfolio = api.list_positions()
-        account=api.get_account()
-        summary=[account.portfolio_value,account.cash,account.long_market_value]
-        open_orders = api.list_orders(
-            status='new',
-            limit=100,
-            nested=True)
-        rows_portfolio=[]
-        for position in portfolio:
-            PLpct=100*float(position.unrealized_plpc)
-            rows_portfolio.append([position.symbol,position.qty,position.current_price,
-                         position.avg_entry_price,position.cost_basis,position.market_value,PLpct])
-        df=pd.DataFrame(rows_portfolio, columns=column_names)
+        rows_df=[]
+        for stock in stocks:
+            score, average, price, drop, sigma, rsi14, willR = parameters_calc(stock)
+            rows_df.append([stock,score,sigma,rsi14,willR,average,price,drop])
+        df=pd.DataFrame(rows_df, columns=column_names)
         df_sorted=df.sort_values(by ["score"])
     else:
         df_sorted= pd.DataFrame(columns=column_names)
