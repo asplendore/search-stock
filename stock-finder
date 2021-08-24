@@ -65,7 +65,20 @@ def view_position(password,profile):
 
 
 if password=="capala":
-    profile=st.radio("Which account do you want to connect with?",("Moderate","Aggressive"))
+    MINSCORE=st.sidebar.slider("Minimum Score", 0.0, 5.0, 2.0)
+    MAXRSI=st.sidebar.slider("Maximum RSI14", 0.0, 100.0, 30.0)
+    MAXWILLR=st.sidebar.slider("Maximum WilliamR", 0.0, 100.0, 20.0)
+
+    st.write("## *Filters:*")
+    (col1, col2, col3) = st.beta_columns(3)
+    with col1:
+        st.write("Min Score=",MINSCORE)
+    with col2:
+        st.write("Max RSI14=",MAXRSI)  
+    with col3:
+        st.write("Max WillR=",MAXWILLR)
+    
+    
     clock, df_portfolio, df_orders, summary=view_position(password,profile)
     showData=st.checkbox("Show Data/Refresh")
     if showData:
