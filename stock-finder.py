@@ -132,7 +132,7 @@ if password=="capala":
         st.write("Max RSI14=",MAXRSI)  
     with col3:
         st.write("Max WillR=",MAXWILLR)
-    showData=st.checkbox("Find best stock to buy (it can take longer than 10 min")
+    showData=st.checkbox("Find best stock to buy (it can take longer than 10 min)")
     if showData:
         clock, df_sorted=finder(password,ALLSTOCKS,MINSCORE,MAXRSI,MAXWILLR)
         if clock.is_open:
