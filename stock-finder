@@ -121,7 +121,7 @@ def stock_search(stocks):
 
 @st.cache
 def finder(password,stocks):
-    column_names_portfolio=["Symbol","Shares","Price","AvgEntry","CostBasis","MarketValue","P/L(%)"]
+    column_names=["Symbol","Shares","Price","AvgEntry","CostBasis","MarketValue","P/L(%)"]
     APCA_API_KEY_ID="PKDK5OS0Q7CJABQDQMTY"
     APCA_API_SECRET_KEY="F8fOmUuIIwgNrjIvC1r61CgLfp6JrwKHeN9GQF8z"
 
@@ -140,17 +140,11 @@ def finder(password,stocks):
             PLpct=100*float(position.unrealized_plpc)
             rows_portfolio.append([position.symbol,position.qty,position.current_price,
                          position.avg_entry_price,position.cost_basis,position.market_value,PLpct])
-        df_portfolio=pd.DataFrame(rows_portfolio, columns=column_names_portfolio)
-        rows_orders=[]
-        for order in open_orders:
-            profit=float(order.filled_qty)*(float(order.legs[0].limit_price)-float(order.filled_avg_price))
-            rows_orders.append([order.symbol,order.filled_qty,order.filled_avg_price, round(float(order.legs[0].limit_price), 2),profit])
-        df_orders=pd.DataFrame(rows_orders, columns=column_names_orders)
+        df=pd.DataFrame(rows_portfolio, columns=column_names)
+        df_sorted=df.sort_values(by ["score"])
     else:
-        df_portfolio = pd.DataFrame(columns=column_names_portfolio)
-        df_orders=pd.DataFrame(columns=column_names_orders)
-        summary=[0,0,0]
-    return clock, df_portfolio, df_orders, summary
+        df_sorted= pd.DataFrame(columns=column_names)
+    return clock, df_sorted
 
 
 if password=="capala":
@@ -168,7 +162,7 @@ if password=="capala":
         st.write("Max WillR=",MAXWILLR)
     
     
-    clock, df_portfolio, df_orders, summary=finder(password,ALLSTOCKS)
+    clock, df_sorted=finder(password,ALLSTOCKS,MINSCORE,MAXRSI,MAXWILLR)
     showData=st.checkbox("Show Data/Refresh")
     if showData:
         if clock.is_open:
