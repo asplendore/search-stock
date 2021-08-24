@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit import caching
 import alpaca_trade_api as tradeapi
 import numpy as np
+from talib import RSI
 import statistics as stats
 import pandas as pd
 import base64
