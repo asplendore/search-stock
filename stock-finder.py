@@ -107,7 +107,10 @@ def finder(password,stocks,minscore,maxrsi,maxwillr):
             if (score>=minscore)and(rsi14<=maxrsi)and(willR<=maxwillr):
                 rows_df.append([stock,score,sigma,rsi14,willR,average,price,drop])
         df=pd.DataFrame(rows_df, columns=column_names)
-        df_sorted=df.sort_values(by=["score"])
+        if rows_df==[]:
+                df_sorted=pd.DataFrame(columns=column_names)
+            else:
+                df_sorted=df.sort_values(by=["score"])
     else:
         df_sorted=pd.DataFrame(columns=column_names)
     return clock, df_sorted
