@@ -71,7 +71,7 @@ def filedownload(df):
     href = f'<a href="data:file/csv;base64,{b64}" download="stocks.csv">Download CSV File for Stocks Summary</a>'
     return href
 
-def parameters_calc(symbol):
+def parameters_calc(symbol,api):
     price=api.get_barset(symbol, 'minute', 1).df.iloc[0][symbol]['close']
     # get closeList, hiList, loList
     bars = api.get_barset(symbol, 'day', limit=20)[symbol]
@@ -103,7 +103,7 @@ def finder(password,stocks,minscore,maxrsi,maxwillr):
         clock = api.get_clock()
         rows_df=[]
         for stock in stocks:
-            score, average, price, drop, sigma, rsi14, willR = parameters_calc(stock)
+            score, average, price, drop, sigma, rsi14, willR = parameters_calc(stock,api)
             if (score>=minscore)and(rsi14<=maxrsi)and(willR<=maxwillr):
                 rows_df.append([stock,score,sigma,rsi14,willR,average,price,drop])
         df_sorted=pd.DataFrame(rows_df, columns=column_names)
@@ -121,7 +121,7 @@ if password=="capala":
     MAXRSI=st.sidebar.slider("Maximum RSI14", 0.0, 100.0, 30.0)
     MAXWILLR=st.sidebar.slider("Maximum WilliamR", 0.0, 100.0, 20.0)
     st.write("## *Filters:*")
-    (col1, col2, col3) = st.beta_columns(3)
+    (col1, col2, col3) = st.columns(3)
     with col1:
         st.write("Min Score=",MINSCORE)
     with col2:
