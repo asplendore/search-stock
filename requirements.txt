@@ -3,3 +3,4 @@ pandas>=1.0.1
 numpy>=1.18.1
 base58==2.0.1
 alpaca-trade-api==1.2.3
+ta-lib>=0.4.19
