@@ -73,7 +73,7 @@ def filedownload(df):
     href = f'<a href="data:file/csv;base64,{b64}" download="Portfolio.csv">Download CSV File for Portfolio Summary</a>'
     return href
 
-def opportunity_function(symbol):
+def parameters_calc(symbol):
     price=api.get_barset(symbol, 'minute', 1).df.iloc[0][symbol]['close']
     # get closeList, hiList, loList
     bars = api.get_barset(symbol, 'day', limit=20)[symbol]
@@ -106,7 +106,7 @@ def stock_search(stocks):
     scores=[]
     best_deal="NODEAL"
     for stock in stocks:
-        score, average, price, drop, sigma, rsi14, willR = opportunity_function(stock)
+        score, average, price, drop, sigma, rsi14, willR = parameters_calc(stock)
         if (1000//price>0.0)and(score>SCOREMAX)and(rsi14<RSI14MIN)and(willR<WILLRMIN):
             deals.append(stock)
             scores.append(score)
