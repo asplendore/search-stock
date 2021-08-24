@@ -122,18 +122,9 @@ def stock_search(stocks):
 @st.cache
 def view_position(password,profile):
     column_names_portfolio=["Symbol","Shares","Price","AvgEntry","CostBasis","MarketValue","P/L(%)"]
-    column_names_orders=["Symbol","Shares","AvgEntry","TakeProfitPrice","FutureProfit"]
-    moderate=["PKDK5OS0Q7CJABQDQMTY","F8fOmUuIIwgNrjIvC1r61CgLfp6JrwKHeN9GQF8z"]
-    aggressive=["PKKD5TPH6KDFCVTJJBK1","ypmdChDik72HclVsguwgT4Rgkpl5gqrFfbSyGVtk"]
-    if profile=="Moderate":
-        APCA_API_KEY_ID=moderate[0]
-        APCA_API_SECRET_KEY=moderate[1]
-    elif profile=="Aggressive":
-        APCA_API_KEY_ID=aggressive[0]
-        APCA_API_SECRET_KEY=aggressive[1]
-    else:
-        APCA_API_KEY_ID=""
-        APCA_API_SECRET_KEY=""
+    APCA_API_KEY_ID="PKDK5OS0Q7CJABQDQMTY"
+    APCA_API_SECRET_KEY="F8fOmUuIIwgNrjIvC1r61CgLfp6JrwKHeN9GQF8z"
+
     if password=="capala":
         api = tradeapi.REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY,APCA_API_BASE_URL)
         clock = api.get_clock()
