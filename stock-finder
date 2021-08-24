@@ -70,7 +70,7 @@ ALLSTOCKS=DOW.union(NASDAQ.union(SP500))
 def filedownload(df):
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
-    href = f'<a href="data:file/csv;base64,{b64}" download="Portfolio.csv">Download CSV File for Portfolio Summary</a>'
+    href = f'<a href="data:file/csv;base64,{b64}" download="stocks.csv">Download CSV File for Stocks Summary</a>'
     return href
 
 def parameters_calc(symbol):
@@ -170,19 +170,9 @@ if password=="capala":
         else:
             market="CLOSED"
         st.write("The Market is ",market)
-        st.write("*Portfolio:*")
-        st.dataframe(df_portfolio)
-        st.markdown(filedownload(df_portfolio), unsafe_allow_html=True)
-        st.write("*Account Summary:*")
-        (col1, col2, col3) = st.beta_columns(3)
-        with col1:
-            st.write("Total [$]=",summary[0])
-        with col2:
-            st.write("Cash [$]=",summary[1])
-        with col3:
-            st.write("Portfolio [$]=",summary[2])
-        st.write("*Open Orders:*")
-        st.dataframe(df_orders)
+        st.write("Found the following stoks:"
+        st.dataframe(df_sorted)
+        st.markdown(filedownload(df_sorted), unsafe_allow_html=True)
     else:
         caching.clear_cache()
 elif password!="":
