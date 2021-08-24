@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run search-stock.py
+web: sh setup.sh && streamlit run stock-finder.py
