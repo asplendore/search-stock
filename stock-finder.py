@@ -12,7 +12,7 @@ APCA_API_BASE_URL="https://paper-api.alpaca.markets"
 st.title('Stock Finder')
 
 st.markdown("""
-Developed by A.Splendore - Version 0.1 - 24 August 2021
+Developed by A.Splendore - Version 0.1 - 25 August 2021
 
 """)
 
@@ -124,8 +124,8 @@ if password=="capala":
     MINSCORE=st.number_input("Insert Minimum Score:",step=0.25)
     MAXRSI=st.number_input("Insert Maximum RSI14:", min_value=0.0, max_value=100.0, value=100.0,step=5.0)
     MAXWILLR=st.number_input("Insert Maximum WilliamR:", min_value=0.0, max_value=100.0, value=100.0,step=5.0)
-    st.write("Click on the botton below to find the best opportunities:")
-    st.write("(It can take longer than 10 minutes)")
+    st.write("Find the best opportunities among Dow30, Nasdaq100 and SP500 stocks:")
+    st.write("Click the button below .... (It can take longer than 10 minutes!)")
     startFind=st.button(" Go! ")
     if startFind:
         clock, df_sorted=finder(password,ALLSTOCKS,MINSCORE,MAXRSI,MAXWILLR)
