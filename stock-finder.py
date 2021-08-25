@@ -121,19 +121,13 @@ def finder(password,stocks,minscore,maxrsi,maxwillr):
 
 
 if password=="capala":
-    MINSCORE=st.number_input("Insert Minimum Score:")
-    MAXRSI=st.number_input("Insert Maximum RSI14", min_value=0.0, max_value=100.0, value=100.0)
-    MAXWILLR=st.number_input("Input Maximum WilliamR", min_value=0.0, max_value=100.0, value=100.0)
-    st.write("## *Filters:*")
-    (col1, col2, col3) = st.columns(3)
-    with col1:
-        st.write("Min Score=",MINSCORE)
-    with col2:
-        st.write("Max RSI14=",MAXRSI)  
-    with col3:
-        st.write("Max WillR=",MAXWILLR)
-    showData=st.checkbox("Find best stock to buy (it can take longer than 10 min)")
-    if showData:
+    MINSCORE=st.number_input("Insert Minimum Score:",step=0.25)
+    MAXRSI=st.number_input("Insert Maximum RSI14:", min_value=0.0, max_value=100.0, value=100.0,step=5.0)
+    MAXWILLR=st.number_input("Insert Maximum WilliamR:", min_value=0.0, max_value=100.0, value=100.0,step=5.0)
+    st.write("## *Click on the botton below to find the best opportunities:*")
+    st.write("(It can take longer than 10 
+    startFind=st.button("Go!")
+    if startFind:
         clock, df_sorted=finder(password,ALLSTOCKS,MINSCORE,MAXRSI,MAXWILLR)
         if clock.is_open:
             market="OPEN"
