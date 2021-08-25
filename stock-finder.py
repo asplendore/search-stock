@@ -124,9 +124,9 @@ if password=="capala":
     MINSCORE=st.number_input("Insert Minimum Score:",step=0.25)
     MAXRSI=st.number_input("Insert Maximum RSI14:", min_value=0.0, max_value=100.0, value=100.0,step=5.0)
     MAXWILLR=st.number_input("Insert Maximum WilliamR:", min_value=0.0, max_value=100.0, value=100.0,step=5.0)
-    st.write("## *Click on the botton below to find the best opportunities:*")
+    st.write("Click on the botton below to find the best opportunities:")
     st.write("(It can take longer than 10 minutes)")
-    startFind=st.button("Go!")
+    startFind=st.button(" Go! ")
     if startFind:
         clock, df_sorted=finder(password,ALLSTOCKS,MINSCORE,MAXRSI,MAXWILLR)
         if clock.is_open:
@@ -134,6 +134,7 @@ if password=="capala":
         else:
             market="CLOSED"
         st.write("The Market is ",market)
+        st.balloons()
         st.write("Found the following stoks:")
         st.dataframe(df_sorted)
         st.markdown(filedownload(df_sorted), unsafe_allow_html=True)
