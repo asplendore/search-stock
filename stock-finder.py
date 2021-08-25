@@ -99,8 +99,8 @@ def parameters_calc(symbol,api):
 @st.cache
 def finder(password,stocks,minscore,maxrsi,maxwillr):
     column_names=["Symbol","Score","Sigma","RSI14","WillR","AvgPrice","Price","Drop_pct"]
-    APCA_API_KEY_ID="PKDK5OS0Q7CJABQDQMTY"
-    APCA_API_SECRET_KEY="F8fOmUuIIwgNrjIvC1r61CgLfp6JrwKHeN9GQF8z"
+    APCA_API_KEY_ID="PKT6HZPXP6ZFZOAABF3M"
+    APCA_API_SECRET_KEY="uxfb0pNMqzt4Zrc43EvqaBwvLhdG89wXmtgx4ugB"
 
     if password=="capala":
         api = tradeapi.REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY,APCA_API_BASE_URL)
@@ -121,9 +121,9 @@ def finder(password,stocks,minscore,maxrsi,maxwillr):
 
 
 if password=="capala":
-    MINSCORE=st.sidebar.slider("Minimum Score", 0.0, 5.0, 2.0)
-    MAXRSI=st.sidebar.slider("Maximum RSI14", 0.0, 100.0, 30.0)
-    MAXWILLR=st.sidebar.slider("Maximum WilliamR", 0.0, 100.0, 20.0)
+    MINSCORE=st.number_input("Insert Minimum Score:")
+    MAXRSI=st.number_input("Insert Maximum RSI14", min_value=0.0, max_value=100.0, value=100.0)
+    MAXWILLR=st.number_input("Input Maximum WilliamR", min_value=0.0, max_value=100.0, value=100.0)
     st.write("## *Filters:*")
     (col1, col2, col3) = st.columns(3)
     with col1:
