@@ -125,7 +125,7 @@ if password=="capala":
     MAXRSI=st.number_input("Insert Maximum RSI14:", min_value=0.0, max_value=100.0, value=100.0,step=5.0)
     MAXWILLR=st.number_input("Insert Maximum WilliamR:", min_value=0.0, max_value=100.0, value=100.0,step=5.0)
     st.write("## *Click on the botton below to find the best opportunities:*")
-    st.write("(It can take longer than 10 
+    st.write("(It can take longer than 10 minutes)")
     startFind=st.button("Go!")
     if startFind:
         clock, df_sorted=finder(password,ALLSTOCKS,MINSCORE,MAXRSI,MAXWILLR)
