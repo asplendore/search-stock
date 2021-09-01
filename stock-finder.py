@@ -85,6 +85,7 @@ def parameters_calc(symbol,api):
         closeList.append(bars[i].c)
         hiList.append(bars[i].h)
         loList.append(bars[i].l)
+    price_1=closeList[-1]
     average=stats.mean(closeList)
     sigma=stats.stdev(closeList)
     score=(average-price)/sigma
@@ -93,12 +94,12 @@ def parameters_calc(symbol,api):
     cList["rsi"]=pta.rsi(close=cList["Close"],lenght=14)
     rsi14=cList["rsi"].iloc[-1]
     willR=100+(max(hiList)-price)/(max(hiList)-min(loList))*(-100)
-    return score, average, price, drop, sigma, rsi14, willR
+    return score, average, price, price_1, drop, sigma, rsi14, willR
 
 
 @st.cache
 def finder(password,stocks,minscore,maxrsi,maxwillr):
-    column_names=["Symbol","Score","Sigma","RSI14","WillR","AvgPrice","Price","Drop_pct"]
+    column_names=["Symbol","Score","Sigma","RSI14","WillR","AvgPrice","Price","Price-1","Drop_pct"]
     APCA_API_KEY_ID="PKT6HZPXP6ZFZOAABF3M"
     APCA_API_SECRET_KEY="uxfb0pNMqzt4Zrc43EvqaBwvLhdG89wXmtgx4ugB"
 
@@ -107,9 +108,9 @@ def finder(password,stocks,minscore,maxrsi,maxwillr):
         clock = api.get_clock()
         rows_df=[]
         for stock in stocks:
-            score, average, price, drop, sigma, rsi14, willR = parameters_calc(stock,api)
+            score, average, price, price_1, drop, sigma, rsi14, willR = parameters_calc(stock,api)
             if (score>=minscore)and(rsi14<=maxrsi)and(willR<=maxwillr):
-                rows_df.append([stock,score,sigma,rsi14,willR,average,price,drop])
+                rows_df.append([stock,score,sigma,rsi14,willR,average,price,price_1,drop])
         df=pd.DataFrame(rows_df, columns=column_names)
         if rows_df==[]:
             df_sorted=pd.DataFrame(columns=column_names)
